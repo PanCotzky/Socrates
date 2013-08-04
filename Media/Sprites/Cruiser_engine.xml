@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>frames</key>
+        <dict>
+            <key>Cruiser_engine.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{0,0},{169,220}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{169,220}}</string>
+                <key>sourceSize</key>
+                <string>{169,220}</string>
+            </dict>
+        </dict>
+        <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>2</integer>
+            <key>realTextureFileName</key>
+            <string>Cruiser_engine.png</string>
+            <key>size</key>
+            <string>{256,256}</string>
+            <key>smartupdate</key>
+            <string>$TexturePacker:SmartUpdate:800a65e3f4346fd8ce55f2bd97befe8e:1/1$</string>
+            <key>textureFileName</key>
+            <string>Cruiser_engine.png</string>
+        </dict>
+    </dict>
+</plist>
