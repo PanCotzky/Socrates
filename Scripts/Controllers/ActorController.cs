@@ -12,7 +12,7 @@ public class ActorController : MonoBehaviour
 	public AstarPath _pathFinder;
 
     public MovementController MovementController { get; protected set; }
-    public WeaponSystem WeaponController { get; protected set; }
+    public WeaponsController WeaponsController { get; protected set; }
 
     public Weapon Weapon { get; set; }
     public Transform Target;
@@ -32,16 +32,21 @@ public class ActorController : MonoBehaviour
         }
 	    MovementController.Finished += OnCommandFinished;
 
-
-
-        var gun = transform.Find("Cannon");
-        Weapon = gun.GetComponent<Weapon>();
-
-        if (!Weapon)
+        WeaponsController = transform.Find("Weaponry").GetComponent<WeaponsController>();
+        if (!WeaponsController)
         {
-            Debug.LogError("Unity.Start()" + name + "No cannons found!");
+            Debug.LogError("Unity.Start()" + name + "has no Movement Controller!");
             enabled = false;
         }
+
+        //var gun = transform.Find("Cannon");
+        //Weapon = gun.GetComponent<Weapon>();
+
+        //if (!Weapon)
+        //{
+        //    Debug.LogError("Unity.Start()" + name + "No cannons found!");
+        //    enabled = false;
+        //}
     }
 	
 	// Update is called once per frame
@@ -101,21 +106,21 @@ public class ActorController : MonoBehaviour
 
 
 
-    public void Aim(Vector3 transform)
+    public void Aim(Vector3 target)
     {
-        if(Weapon)
+        if(WeaponsController)
         {
-            Weapon.AimTarget(transform);
+            WeaponsController.AimPoint(target);
         }
     }
 
-    public void Fire(Transform transform)
-    {
-        if (Weapon)
-        {
-            Weapon.Fire();
-        }
-    }
+    //public void Fire(Transform target)
+    //{
+    //    if (Weapon)
+    //    {
+    //        Weapon.Fire();
+    //    }
+    //}
 
     public void OnCommandFinished(object s, EventArgs e)
     {

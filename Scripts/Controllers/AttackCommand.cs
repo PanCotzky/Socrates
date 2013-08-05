@@ -13,13 +13,15 @@ namespace Assets.Scripts.Controllers
 
         public override bool Run()
         {
-			Finished = false;
-            if(!Target || !Weapon)
+            
+            
+            Finished = false;
+            if (!Target)
             {
                 return false;
             }
-
-            LockOn(Target);
+            Character.WeaponsController.LockOn(Target);
+            
             return true;
 
             //if (Character != null)
@@ -27,7 +29,7 @@ namespace Assets.Scripts.Controllers
             //    Cannon = Character.GetComponentInChildren<Weapon>();
             //}
         }
-        
+
         public override bool Process()
         {
             Weapon.Fire();
@@ -35,18 +37,18 @@ namespace Assets.Scripts.Controllers
             return Finished;
         }
 
-        public void LockOn(Transform transform)
-        {
-            if (Weapon)
-            {
-                Target = transform;
-                Weapon.LockOn(transform);
-            }
-        }
+        //public void LockOn(Transform transform)
+        //{
+        //    if (Weapon)
+        //    {
+        //        Target = transform;
+        //        Character.WeaponsController.LockOn(transform);
+        //    }
+        //}
 
-        public void Fire(ActorController target)
-        {
-            Weapon.Fire(target);
-        }
+        //public void Fire(ActorController target)
+        //{
+        //    Weapon.Fire(target);
+        //}
     }
 }

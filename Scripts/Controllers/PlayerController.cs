@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
         if(_selectedCharacter!=null)
         {
 			_selectedCharacter.Target = target;
-            AttackCommand order = new AttackCommand() { Target = _selectedCharacter.Target, Weapon = _selectedCharacter.Weapon};
+            AttackCommand order = new AttackCommand() { Target = _selectedCharacter.Target};
             _selectedCharacter.PushCommand(order);
         }
     }
@@ -156,13 +156,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Fire()
-    {
-        if (_selectedCharacter)
-        {
-            _selectedCharacter.Fire(transform);
-        }
-    }
+    //public void Fire()
+    //{
+    //    if (_selectedCharacter)
+    //    {
+    //        _selectedCharacter.Fire(transform);
+    //    }
+    //}
 
     
 

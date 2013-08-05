@@ -7,6 +7,8 @@ public class MovementController : MonoBehaviour
     #region Fields
 
     private Hashtable _moveStreightToParams;
+    private Ship _thisShip;
+
     #endregion
 
     #region Events
@@ -21,37 +23,44 @@ public class MovementController : MonoBehaviour
 
 	// Use this for initialization
 	void Start ()
-    {
-        _moveStreightToParams = new Hashtable();
+	{
+	    _thisShip = GetComponent<Ship>();
+
+	    _thisShip.MovementComplete -= OnFinished;
+	    _thisShip.MovementComplete += OnFinished;
+
+        //_moveStreightToParams = new Hashtable();
 
 
-        _moveStreightToParams.Add("orienttopath", true);
-        //parameters.Add("movetopath", true);
-        _moveStreightToParams.Add("oncompletetarget", gameObject);
-        _moveStreightToParams.Add("oncomplete", "OnFinished");
-        _moveStreightToParams.Add("speed", 50);
-        _moveStreightToParams.Add("path", null);
+        //_moveStreightToParams.Add("orienttopath", true);
+        ////parameters.Add("movetopath", true);
+        //_moveStreightToParams.Add("oncompletetarget", gameObject);
+        //_moveStreightToParams.Add("oncomplete", "OnFinished");
+        //_moveStreightToParams.Add("speed", 50);
+        //_moveStreightToParams.Add("path", null);
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	
 	}
 
     public void MoveStraightTo(Vector3 waypoint)
     {
-        if (waypoint == null) return;
+        _thisShip.MoveStraightTo(waypoint);
+        //if (waypoint == null) return;
 
-        Target = waypoint;
-        Target.Set(Target.x, 0, Target.z);
+        //Target = waypoint;
+        //Target.Set(Target.x, 0, Target.z);
 
-        _moveStreightToParams["path"] = new [] { transform.position, Target };
+        //_moveStreightToParams["path"] = new [] { transform.position, Target };
         
-        iTween.MoveTo(gameObject, _moveStreightToParams);
+        //iTween.MoveTo(gameObject, _moveStreightToParams);
     }
 
-    protected void OnFinished()
+    protected void OnFinished(object s, EventArgs e)
     {
-        if (Finished != null) Finished(this, EventArgs.Empty);
     }
+
 }

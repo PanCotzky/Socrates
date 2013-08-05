@@ -1,12 +1,26 @@
+using System;
 using UnityEngine;
 using System.Collections;
 
 public class Weapon : MonoBehaviour
 {
-    public Transform Target;
+    public Transform Target 
+    {
+        get
+        {
+            if(Controller!=null)
+            {
+                return Controller.Target;
+            }
+            return null;
+        }
+    }
+
 	public float Cooldown = 1;
 	public float CooldownLeft {get; protected set;}
-		
+    public WeaponsController Controller { get; set; }
+    public event EventHandler TargetDestroyed;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -33,10 +47,10 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void LockOn(Transform target)
-    {
-        Target = target;
-    }
+    //public void LockOn(Transform target)
+    //{
+    //    Target = target;
+    //}
 
     public void AimTarget(Vector3 target)
     {
@@ -47,19 +61,22 @@ public class Weapon : MonoBehaviour
         //iTween.LookTo(gameObject, target, 0);
     }
 
-    public void AimDirection(Quaternion direction)
-    {
-
-    }
-
     public void Fire()
     {
+        var ship = Target.GetComponent<Ship>();
+        if (ship != null && ship.Dead)
+        {
+            OnTargetDestroyed();
+            return;
+        }
+
 		if(CooldownLeft<=0)
 		{
 			var bolt = transform.FindChild("Bolt");
 	        var newBolt = Instantiate(bolt, bolt.position, transform.rotation) as Transform;
 	        var boltComponent = newBolt.GetComponent<Bolt>();
-	
+
+		    boltComponent.Target = Target;
 			boltComponent.enabled= true;
 	        boltComponent.Fire();
 			ResetCoolDown();
@@ -72,13 +89,8 @@ public class Weapon : MonoBehaviour
         CooldownLeft = Cooldown;
     }
 
-    public void Fire(Vector3 direction)
+    protected void OnTargetDestroyed()
     {
-        
-    }
-
-    internal void Fire(ActorController target)
-    {
-        throw new System.NotImplementedException();
+        if (TargetDestroyed != null) TargetDestroyed(this, EventArgs.Empty);
     }
 }

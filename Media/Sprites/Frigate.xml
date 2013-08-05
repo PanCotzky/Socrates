@@ -4,18 +4,18 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Cruiser_hull.png</key>
+            <key>Frigate.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{0,0},{169,220}}</string>
+                <string>{{0,0},{47,78}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{169,220}}</string>
+                <string>{{0,0},{47,78}}</string>
                 <key>sourceSize</key>
-                <string>{169,220}</string>
+                <string>{47,78}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -23,13 +23,13 @@
             <key>format</key>
             <integer>2</integer>
             <key>realTextureFileName</key>
-            <string>Cruiser_hull.png</string>
+            <string>Frigate.png</string>
             <key>size</key>
-            <string>{256,256}</string>
+            <string>{64,128}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:bb6bc34a3d17bbd77e80f14c606f10c3:1/1$</string>
+            <string>$TexturePacker:SmartUpdate:6320ffa29b0e3aa7aa660e97c010add4:1/1$</string>
             <key>textureFileName</key>
-            <string>Cruiser_hull.png</string>
+            <string>Frigate.png</string>
         </dict>
     </dict>
 </plist>
