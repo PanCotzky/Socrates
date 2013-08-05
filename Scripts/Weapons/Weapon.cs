@@ -4,13 +4,13 @@ using System.Collections;
 public class Weapon : MonoBehaviour
 {
     public Transform Target;
-	public float CoolDown = 1;
-	public float CoolDownLeft {get; protected set;}
+	public float Cooldown = 1;
+	public float CooldownLeft {get; protected set;}
 		
 	// Use this for initialization
 	void Start ()
     {
-	    CoolDownLeft = 0;
+	    CooldownLeft = 0;
 	}
 	
 	// Update is called once per frame
@@ -19,16 +19,17 @@ public class Weapon : MonoBehaviour
 	    if(Target)
 	    {
             iTween.LookUpdate(gameObject, Target.position, 0);
+			Fire();
 	    }
 	    UpdateCoolDown(Time.deltaTime);
     }
 
     private void UpdateCoolDown(float p)
     {
-        if (CoolDownLeft > 0)
+        if (CooldownLeft > 0)
         {
             var deltaTimeInSec = p;
-            CoolDownLeft = (deltaTimeInSec > CoolDownLeft) ? 0 : CoolDownLeft - deltaTimeInSec;
+            CooldownLeft = (deltaTimeInSec > CooldownLeft) ? 0 : CooldownLeft - deltaTimeInSec;
         }
     }
 
@@ -53,7 +54,7 @@ public class Weapon : MonoBehaviour
 
     public void Fire()
     {
-		if(CoolDownLeft<=0)
+		if(CooldownLeft<=0)
 		{
 			var bolt = transform.FindChild("Bolt");
 	        var newBolt = Instantiate(bolt, bolt.position, transform.rotation) as Transform;
@@ -68,7 +69,7 @@ public class Weapon : MonoBehaviour
 
     private void ResetCoolDown()
     {
-        CoolDownLeft = CoolDown;
+        CooldownLeft = Cooldown;
     }
 
     public void Fire(Vector3 direction)

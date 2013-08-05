@@ -11,16 +11,16 @@ namespace Assets.Scripts.Controllers
         public Transform Target { get; set; }
         public Weapon Weapon { get; set; }
 
-        public override void Run()
+        public override bool Run()
         {
 			Finished = false;
             if(!Target || !Weapon)
             {
-                Finished = true;
+                return false;
             }
 
             LockOn(Target);
-
+            return true;
 
             //if (Character != null)
             //{

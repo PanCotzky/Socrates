@@ -21,8 +21,10 @@ public class AICommand
     }
 	
 	
-	public virtual void Run()
-	{}
+	public virtual bool Run()
+	{
+	    return true;
+	}
 
     public virtual void OnPop()
     {

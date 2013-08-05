@@ -204,7 +204,7 @@ public class MouseInput : MonoBehaviour
 
     private void OnMouseScroll()
     {
-        ScreenController.Zoom(Input.GetAxis("Mouse ScrollWheel"), ZoomSpeed);
+        ScreenController.Zoom(Input.GetAxis("Mouse ScrollWheel"), -ZoomSpeed);
     }
 	
     protected void OnMouseLeftClick()	
@@ -255,7 +255,7 @@ public class MouseInput : MonoBehaviour
     {
         float x = Input.GetAxis("Mouse X") * ScrollingSpeed;
         float y = Input.GetAxis("Mouse Y") * ScrollingSpeed;
-        ScreenController.ScrollScreen(x, y);
+        ScreenController.ScrollScreen(-x, -y);
     }
 
 

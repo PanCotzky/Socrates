@@ -3,15 +3,18 @@ using System.Collections;
 
 public class ScreenController : MonoBehaviour
 {
-    public Camera MainCamera;
+    public OTView MainCamera;
+//    public Camera MainCamera;
     public float MinZoomFOV;
     public float MaxZoomFOV;
 
 	// Use this for initialization
 	void Start ()
     {
-        var camera = transform.Find("MainCamera");
-	    MainCamera = camera.GetComponent<Camera>();
+        var orthello = GameObject.Find("OT");
+	    var camera = orthello.transform.FindChild("View");
+	    //MainCamera = camera.GetComponent<Camera>();
+        MainCamera = camera.GetComponent<OTView>();
 	}
 	
 	// Update is called once per frame
@@ -31,16 +34,16 @@ public class ScreenController : MonoBehaviour
     {
         if (dir != 0)
         {
-            MainCamera.orthographicSize -= (ZoomSpeed) * dir;
+            MainCamera.zoom -= (ZoomSpeed) * dir;
 
-            if (MainCamera.orthographicSize < MinZoomFOV)
+            if (MainCamera.zoom < MinZoomFOV)
             {
-                MainCamera.orthographicSize = MinZoomFOV;
+                MainCamera.zoom = MinZoomFOV;
             }
 
-            if (MainCamera.orthographicSize > MaxZoomFOV)
+            if (MainCamera.zoom > MaxZoomFOV)
             {
-                MainCamera.orthographicSize = MaxZoomFOV;
+                MainCamera.zoom = MaxZoomFOV;
             }
         }
     }
@@ -52,11 +55,19 @@ public class ScreenController : MonoBehaviour
     /// <param name="y">Y movement</param>
     public void ScrollScreen(float x, float y)
     {
-        float alpha = MainCamera.transform.rotation.y;
-        float betha = ((MainCamera.transform.rotation.y * (180 / Mathf.PI)) + 90f) * (Mathf.PI / 180);
+        if(x!=0 || y!=0)
+        {
+            Vector2 newpos = new Vector2(MainCamera.position.x + x, MainCamera.position.y + y);
+            MainCamera.position = newpos;
+        }
+        
 
-        float xOffset = Mathf.Sin(alpha) * y + Mathf.Sin(betha) * x;
-        float zOffset = Mathf.Cos(alpha) * y + Mathf.Cos(betha) * x;
+        //float alpha = MainCamera.transform.rotation.y;
+        //float betha = ((MainCamera.transform.rotation.y * (180 / Mathf.PI)) + 90f) * (Mathf.PI / 180);
+
+        //float xOffset = Mathf.Sin(alpha) * y + Mathf.Sin(betha) * x;
+        //float zOffset = Mathf.Cos(alpha) * y + Mathf.Cos(betha) * x;
+
 
         //if(MainCamera.transform.position.x+xOffset>Floor.localScale.x)
         //{
@@ -76,11 +87,11 @@ public class ScreenController : MonoBehaviour
         //    zOffset = zOffset - (Floor.localScale.z - MainCamera.transform.position.z + zOffset);
         //}
 
-        Vector3 mainPosition = new Vector3(
-            xOffset
-            , 0
-            , zOffset);
-        MainCamera.transform.position -= mainPosition;
+        //Vector3 mainPosition = new Vector3(
+        //    xOffset
+        //    , 0
+        //    , zOffset);
+        //MainCamera.transform.position -= mainPosition;
     }
 
 
