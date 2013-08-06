@@ -75,7 +75,7 @@ public class Ship : MonoBehaviour
 
     public int HitPoints = 100;
 
-    public int HitPointsLeft { get; set; }
+    public float HitPointsLeft { get; set; }
 
     [HideInInspector]
     public bool Dead { get; protected set; }

@@ -8,7 +8,9 @@ public class Bolt : MonoBehaviour
     private Hashtable _flightParams;
     public float _velocity = 50;
     protected Transform _onHitExplosion;
-    public int Power;
+    public Transform HitEffect;
+
+    public float Power;
 
     [HideInInspector]
     public Transform Target;
@@ -23,10 +25,21 @@ public class Bolt : MonoBehaviour
     {
 	}
 
-    public void Fire()
+    public void Fire(float spread, Transform target)
     {
-        var particle = GetComponentInChildren<ParticleSystem>();
-        particle.Play();
+        Target = target;
+        if (Target == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        var particles = GetComponentsInChildren<ParticleSystem>();
+
+        foreach (ParticleSystem particle in particles)
+        {
+            particle.Play();
+        }
 
 		_flightParams = new Hashtable();
 
@@ -39,8 +52,10 @@ public class Bolt : MonoBehaviour
         _flightParams.Add("easetype", "Linear");
 
         Vector3 pos = Target.position;//transform.forward * 100;
+        float distance = Vector3.Distance(transform.position, pos);
+        float disp = distance*0.1f;
 
-        pos.Set(pos.x + Random.Range(-6f, 6f), 0, pos.z + Random.Range(-6f, 6f));
+        pos.Set(pos.x + Random.Range(-disp, disp), 0, pos.z + Random.Range(-disp, disp));
         //new Vector3(Mathf.Cos(transform.rotation.y)*100, 0, Mathf.Sin(transform.rotation.y)*100);
 
         _flightParams.Add("position", pos);
@@ -50,18 +65,30 @@ public class Bolt : MonoBehaviour
 
     private void OnComplete()
     {
-        var exp = transform.FindChild("OnHitExplosion");
+        //var exp = transform.FindChild("HitEffect");
         Vector3 position = new Vector3(transform.position.x, 1, transform.position.z);
-        var newExp = Instantiate(exp, position, transform.rotation) as Transform;
-        var detonatorComponent = newExp.GetComponent<Detonator>();
+        var newExp = Instantiate(HitEffect, position, transform.rotation) as Transform;
+        var hitEffect = newExp.GetComponent<HitEffect>();
 
-        detonatorComponent.enabled = true;
+        if (hitEffect)
+        {
+            hitEffect.Fire();
+        }
+        //else
+        //{
+        //    var particleComponent = newExp.GetComponent<ParticleSystem>();
+        //    var observable = newExp.GetComponent<ObservableSpriteSystem>();
+        //    observable.enabled = true;
+        //    particleComponent.Play();
+        //}
+        
 
-        var camera = GameObject.Find("MainCamera");//.GetComponent<Camera>();
-        iTween.ShakePosition(camera, new Vector3(0.2f, 0, 0.2f), 0);
-
+        //var camera = GameObject.Find("MainCamera");//.GetComponent<Camera>();
+        //iTween.ShakePosition(camera, new Vector3(0.2f, 0, 0.2f), 0);
+		
+		
         Destroy(gameObject);
-        detonatorComponent.Explode();
+        
         var ship = Target.GetComponent<Ship>();
         ship.HitPointsLeft -= Power;
     }

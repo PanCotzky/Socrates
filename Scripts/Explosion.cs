@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 
 public class Explosion : MonoBehaviour
 {
     protected Detonator[] _explosions;
+	
     protected float timer = 0;
     private Hashtable _cameraTiltParams;
 
@@ -11,6 +13,7 @@ public class Explosion : MonoBehaviour
 	public void Start ()
 	{
         _explosions = GetComponentsInChildren<Detonator>();
+		
         _cameraTiltParams = new Hashtable();
 
         _cameraTiltParams.Add("amount", new Vector3(5, 0, 5));
@@ -26,6 +29,8 @@ public class Explosion : MonoBehaviour
 
     public void Detonate()
     {
+		
+        
         foreach (Detonator explosion in _explosions)
         {
             explosion.Explode();

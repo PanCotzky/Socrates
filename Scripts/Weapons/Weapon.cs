@@ -20,7 +20,8 @@ public class Weapon : MonoBehaviour
 	public float CooldownLeft {get; protected set;}
     public WeaponsController Controller { get; set; }
     public event EventHandler TargetDestroyed;
-
+    public float Spread;
+    protected ParticleSystem _gunFireEffect;
 	// Use this for initialization
 	void Start ()
     {
@@ -72,13 +73,17 @@ public class Weapon : MonoBehaviour
 
 		if(CooldownLeft<=0)
 		{
-			var bolt = transform.FindChild("Bolt");
+			var bolt = transform.FindChild("Shot");
 	        var newBolt = Instantiate(bolt, bolt.position, transform.rotation) as Transform;
 	        var boltComponent = newBolt.GetComponent<Bolt>();
 
+		    var gunFire = transform.Find("GunFire");
+		    _gunFireEffect = gunFire.GetComponent<ParticleSystem>();
+
 		    boltComponent.Target = Target;
 			boltComponent.enabled= true;
-	        boltComponent.Fire();
+            _gunFireEffect.Play();//Emit(50);
+            boltComponent.Fire(Spread, Target);
 			ResetCoolDown();
 		}
         

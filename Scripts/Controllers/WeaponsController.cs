@@ -9,6 +9,7 @@ public class WeaponsController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		Debug.Log(gameObject);
 	    _weaponry = GetComponentsInChildren<Weapon>();
 	    foreach (Weapon weapon in _weaponry)
 	    {
