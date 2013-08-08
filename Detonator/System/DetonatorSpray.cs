@@ -32,6 +32,7 @@ public class DetonatorSpray : DetonatorComponent {
 			if (_explodeDelay <= 0f)
 			{
 				Explode();
+                
 			}
 		}
 	}

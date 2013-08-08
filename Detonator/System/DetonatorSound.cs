@@ -62,7 +62,7 @@ public class DetonatorSound : DetonatorComponent {
 				_soundComponent.PlayOneShot(farSounds[_idx]);
 			}	
 			_delayedExplosionStarted = false;
-			_explodeDelay = 0f;			
+			_explodeDelay = 0f;
 		}
 		else
 		{

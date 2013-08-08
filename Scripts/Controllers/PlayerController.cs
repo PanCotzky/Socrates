@@ -6,7 +6,9 @@ using Assets.Scripts.Controllers;
 
 public class PlayerController : MonoBehaviour
 {
-    protected ActorController _selectedCharacter;
+    [HideInInspector]
+    public ActorController SelectedCharacter;
+
     protected bool _selectedChanged = false;
     private Transform SelectMarker;
     private Transform LockOnMarker { get; set; }
@@ -44,14 +46,14 @@ public class PlayerController : MonoBehaviour
     {
         if(_selectedChanged)
         {
-            if (_selectedCharacter)
+            if (SelectedCharacter)
             {
-                Vector3 pos = new Vector3(_selectedCharacter.transform.position.x, _selectedCharacter.transform.position.y + 20, _selectedCharacter.transform.position.z);
+                Vector3 pos = new Vector3(SelectedCharacter.transform.position.x, SelectedCharacter.transform.position.y + 20, SelectedCharacter.transform.position.z);
                 SelectMarker.position = pos;
                 SelectMarker.renderer.enabled = true;
-                if(_selectedCharacter.Target)
+                if(SelectedCharacter.Target)
                 {
-                    pos = new Vector3(_selectedCharacter.Target.position.x, _selectedCharacter.Target.position.y + 20, _selectedCharacter.Target.position.z);
+                    pos = new Vector3(SelectedCharacter.Target.position.x, SelectedCharacter.Target.position.y + 20, SelectedCharacter.Target.position.z);
                     LockOnMarker.position = pos;
                     LockOnMarker.renderer.enabled = true;
                 }
@@ -70,27 +72,27 @@ public class PlayerController : MonoBehaviour
 
     public void Select(ActorController character)
     {
-        _selectedCharacter = character;
+        SelectedCharacter = character;
         _selectedChanged = true;
     }
 
     public void MoveTo(Vector3 target)
     {
-        if(_selectedCharacter!=null)
+        if(SelectedCharacter!=null)
         {
             MoveToCommand order = new MoveToCommand() { Target = target };
-            _selectedCharacter.PushCommand(order);
+            SelectedCharacter.PushCommand(order);
         }
     }
 
 
     public void Attack(Transform target)
     {
-        if(_selectedCharacter!=null)
+        if(SelectedCharacter!=null)
         {
-			_selectedCharacter.Target = target;
-            AttackCommand order = new AttackCommand() { Target = _selectedCharacter.Target};
-            _selectedCharacter.PushCommand(order);
+			SelectedCharacter.Target = target;
+            AttackCommand order = new AttackCommand(SelectedCharacter.Target/*, new string[]{"Point Defense Cannon"}*/);
+            SelectedCharacter.PushCommand(order);
         }
     }
 
@@ -150,9 +152,9 @@ public class PlayerController : MonoBehaviour
 
     public void Aim(Vector3 transform)
     {
-        if(_selectedCharacter)
+        if (SelectedCharacter)
         {
-            _selectedCharacter.Aim(transform);
+            SelectedCharacter.Aim(transform);
         }
     }
 
@@ -164,7 +166,22 @@ public class PlayerController : MonoBehaviour
     //    }
     //}
 
-    
 
-    
+    bool togle = false;
+    void OnGUI()
+    {
+        if (SelectedCharacter != null)
+        {
+            //togle = UnityEngine.GUI.Toggle(
+            //    new Rect(10, 10, 100, 40), togle, "ass");
+
+
+            SelectedCharacter.WeaponsController.GUI();
+            //if (GUI.Button(new Rect(Screen.width - 110, Screen.height - 50, 100, 40), "I am a button"))
+            //{
+            //    print("You clicked the button!");
+            //}
+        }
+
+    }
 }

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public class ObservableSpriteSystem : MonoBehaviour
+public class ObservableParticleSystem : MonoBehaviour
 {
     public bool DieOnFinished = false;
     public ParticleSystem _system;

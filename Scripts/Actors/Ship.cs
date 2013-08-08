@@ -22,7 +22,13 @@ public class Ship : MonoBehaviour
     ///  Speed of engine
     /// </summary>
 
+    #region Editable
+
     public float EngineSpeed = 50;
+
+    public UnityEngine.Object DeathEffect;
+    
+    #endregion 
 
     public Vector3 Destenation { get; protected set; }
 
@@ -44,6 +50,7 @@ public class Ship : MonoBehaviour
         Destenation.Set(Destenation.x, 0, Destenation.z);
 
         _moveStreightToParams["speed"] = EngineSpeed;
+        //var littleForvord = transform.position+transform.forward * 20;
         _moveStreightToParams["path"] = new[] { transform.position, Destenation };
 
         iTween.MoveTo(gameObject, _moveStreightToParams);
@@ -119,7 +126,7 @@ public class Ship : MonoBehaviour
     private void Die()
     {
         Vector3 pos = new Vector3(transform.position.x, 1, transform.position.z);
-        GameObject explosion = Instantiate(Resources.Load("Cruiser/CruiserExplosion"), pos, transform.rotation) as GameObject;
+        GameObject explosion = Instantiate(DeathEffect/*Resources.Load("Cruiser/CruiserExplosion")*/, pos, transform.rotation) as GameObject;
         var expComponent = explosion.GetComponent<Explosion>();
         expComponent.Start();
 		expComponent.enabled = true;
@@ -137,4 +144,6 @@ public class Ship : MonoBehaviour
         Destroy(gameObject);
         //sprite.GetComponent<OTSprite>().renderer.enabled = false;
     }
+
+    
 }

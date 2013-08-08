@@ -10,6 +10,7 @@ public class ActorController : MonoBehaviour
     public float MoveSpeed = 100F;
     public float NextWaypointDistance = 3;
 	public AstarPath _pathFinder;
+    public int ActionPoints;
 
     public MovementController MovementController { get; protected set; }
     public WeaponsController WeaponsController { get; protected set; }
@@ -108,7 +109,7 @@ public class ActorController : MonoBehaviour
 
     public void Aim(Vector3 target)
     {
-        if(WeaponsController)
+        if (WeaponsController)
         {
             WeaponsController.AimPoint(target);
         }

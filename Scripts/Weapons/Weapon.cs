@@ -20,21 +20,42 @@ public class Weapon : MonoBehaviour
 	public float CooldownLeft {get; protected set;}
     public WeaponsController Controller { get; set; }
     public event EventHandler TargetDestroyed;
-    public float Spread;
+    public float Spread = 0.1f;
+    public string WeaponName;
+    public Hashtable _rotationProps;
+
+    //public float MinFireDelay=0;
+    //public float MaxFireDelay;
+    public int ShotsInRound = 1;
+
+    protected int ShotsMade = 0;
+
+    public bool OneRoundPerFire = true;
+
+
+    public bool FireOrderGiven { get; set; }
+
     protected ParticleSystem _gunFireEffect;
 	// Use this for initialization
 	void Start ()
     {
 	    CooldownLeft = 0;
+        _rotationProps = new Hashtable();
+
+        _rotationProps.Add("looktarget", null);
+        _rotationProps.Add("axis", "Y");
+        _rotationProps.Add("time", 1);
+
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-	    if(Target)
-	    {
-            iTween.LookUpdate(gameObject, Target.position, 0);
-			Fire();
+        if (Target && FireOrderGiven && (OneRoundPerFire && ShotsMade < ShotsInRound))
+        {
+            _rotationProps["looktarget"] = Target.position;
+            iTween.LookUpdate(gameObject, _rotationProps);
+            Shoot();
 	    }
 	    UpdateCoolDown(Time.deltaTime);
     }
@@ -62,7 +83,7 @@ public class Weapon : MonoBehaviour
         //iTween.LookTo(gameObject, target, 0);
     }
 
-    public void Fire()
+    public void Shoot()
     {
         var ship = Target.GetComponent<Ship>();
         if (ship != null && ship.Dead)
@@ -85,8 +106,18 @@ public class Weapon : MonoBehaviour
             _gunFireEffect.Play();//Emit(50);
             boltComponent.Fire(Spread, Target);
 			ResetCoolDown();
+		    ShotsMade++;
 		}
         
+    }
+
+    public void Fire()
+    {
+        if(Target)
+        {
+            ShotsMade = 0;
+            FireOrderGiven = true;
+        }
     }
 
     private void ResetCoolDown()
@@ -96,6 +127,9 @@ public class Weapon : MonoBehaviour
 
     protected void OnTargetDestroyed()
     {
+        FireOrderGiven = false;
         if (TargetDestroyed != null) TargetDestroyed(this, EventArgs.Empty);
     }
+
+    
 }

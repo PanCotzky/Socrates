@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections;
 
@@ -81,7 +82,7 @@ public abstract class DetonatorComponent : MonoBehaviour
 	[HideInInspector]
 	public  Vector3 startVelocity = Vector3.zero;
 	public  Vector3 velocity = Vector3.zero;
-	
+
     public abstract void Explode();
 	
 	//The main Detonator calls this instead of using Awake() or Start() on subcomponents
@@ -113,6 +114,8 @@ public abstract class DetonatorComponent : MonoBehaviour
 		Detonator _myDetonator = GetComponent("Detonator") as Detonator;
 		return _myDetonator;
 	}
+
+    
 }
 
 [AddComponentMenu("Detonator/Detonator")]
@@ -165,7 +168,9 @@ public class Detonator : MonoBehaviour {
 	public bool autoCreateLight = true;
 	public bool autoCreateForce = true;
 	public bool autoCreateHeatwave = false;
-	
+
+    public event EventHandler Exploded;
+
 	void Awake() 
 	{
 		FillDefaultMaterials();
@@ -458,4 +463,9 @@ public class Detonator : MonoBehaviour {
             return null;
         }
 	}
+
+    protected void OnExploded()
+    {
+        if (Exploded != null) Exploded(this, EventArgs.Empty);
+    }
 }

@@ -101,24 +101,6 @@ public class MouseInput : MonoBehaviour
         //Gizmos.DrawWireSphere(hit.transform.position, (hit.collider as CapsuleCollider).radius);
 	}
 
-    private void ProcessMouseOver()
-    {
-        if (_hit.collider.name != "SelectionMarker")
-        {
-            Debug.Log(_hit.collider.name);
-            Vector3 pos = new Vector3(_hit.collider.transform.position.x, _hit.collider.transform.position.y + 20, _hit.collider.transform.position.z);
-
-            Marker.position = pos;
-            Marker.renderer.enabled = true;
-            _isHit = true;
-        }
-    }
-
-    private void ProcessMouseMove()
-    {
-        
-    }
-
     private void ProcessMouseOnScreenEdge()
     {
         float x = 0;
@@ -209,10 +191,10 @@ public class MouseInput : MonoBehaviour
 	
     protected void OnMouseLeftClick()	
     {
-        if (_hit.collider is Collider && _hit.collider.name != "SelectionMarker")
+        if (_hit.collider is Collider)
         {
 			ActorController controller = _hit.collider.GetComponent<ActorController>();
-			PlayerController.Select(controller);
+            if(controller) PlayerController.Select(controller);
         }
         else
         {
@@ -233,13 +215,8 @@ public class MouseInput : MonoBehaviour
             }
             else
             {
-                if (_hit.collider.name != "SelectionMarker")
-                {
-                    //var target = _hit.transform.GetComponent<ActorController>();
-                    //if (target != null) PlayerController.Attack(target);
 
-                    PlayerController.Attack(_hit.transform);
-                }
+                if(_hit.transform.GetComponent<ActorController>()) PlayerController.Attack(_hit.transform);
             }
         }
     }

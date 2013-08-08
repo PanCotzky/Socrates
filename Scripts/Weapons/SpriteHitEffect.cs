@@ -17,7 +17,7 @@ public class SpriteHitEffect : HitEffect
     public override void Fire()
     {
         var particleComponent = GetComponent<ParticleSystem>();
-        var observable = GetComponent<ObservableSpriteSystem>();
+        var observable = GetComponent<ObservableParticleSystem>();
         observable.enabled = true;
         particleComponent.Play();
     }
